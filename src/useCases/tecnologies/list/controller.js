@@ -1,4 +1,4 @@
-import { ListTecnologiesUseCase } from "./useCase";
+import { ListTecnologiesUseCase } from "./useCase.js";
 
 
 export class ListTecnologiesController {
@@ -16,7 +16,6 @@ export class ListTecnologiesController {
   handle(req, res) {
     try {
       const user = req.user;
-      
       const tecnologies =  this.listTecnologiesUseCase.execute(user.id);
       return res.status(200).json(tecnologies);
     } catch (error) {
