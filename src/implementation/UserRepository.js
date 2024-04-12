@@ -43,7 +43,6 @@ export class UserRepository {
   }
 
   addTecnology(userId, tecnology) {
-
     const user = this.users.find((u) => u.id === userId);
     if (!user) {
       return null;
@@ -58,20 +57,51 @@ export class UserRepository {
     return user.tecnologies;
   }
 
+  deleteTechnologyById(userId, tecnologyId) {
+    const user = this.users.find((u) => u.id === userId);
+    if (!user) {
+      return null;
+    }
+    const technologyExist = user.tecnologies.find((t) => t.id === tecnologyId);
+    if (!technologyExist) {
+      return null;
+    }
+    user.tecnologies = user.tecnologies.filter((t) => t.id !== tecnologyId);
+    return user.tecnologies;
+  }
+
+  markTecnology(userId, tecnologyId) {
+    const user = this.users.find((u) => u.id === userId);
+    if (!user) {
+      return null;
+    }
+    const technologyExist = user.tecnologies.find((t) => t.id === tecnologyId);
+
+    if (!technologyExist) {
+      return null;
+    }
+    Object.assign(technologyExist, {
+      studied: true,
+    });
+    return technologyExist;
+  }
+
   editTechnology(userId, technology) {
     const user = this.users.find((u) => u.id === userId);
     if (!user) {
       return null;
     }
-    const technologyExist = user.tecnologies.find(t => t.id === technology.id)
-    
-    if(!technologyExist) {
+    const technologyExist = user.tecnologies.find(
+      (t) => t.id === technology.id
+    );
+
+    if (!technologyExist) {
       return null;
     }
     Object.assign(technologyExist, {
       title: technology.title ?? technologyExist.title,
       deadline: new Date(technology.deadline) ?? technologyExist.deadline,
-    })
+    });
     return technologyExist;
   }
 
@@ -89,7 +119,5 @@ export class UserRepository {
   /**
    * @param {string} userId
    */
-  delete(userId) {
-    
-  }
+  delete(userId) {}
 }
