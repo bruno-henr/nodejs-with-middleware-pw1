@@ -1,37 +1,21 @@
+import { prisma } from "../database/prisma.js";
 import "../types/UserTypes.js";
 import { v4 as uuidv4, v4 } from "uuid";
 
 export class UserRepository {
-  /**
-   * @type {User[]}
-   */
-  users = [];
-  static #instance = null;
-
-  constructor() {
-    if (UserRepository.#instance) {
-      UserRepository.#instance;
-    } else {
-      UserRepository.#instance = this;
+  
+  async add(user) {
+    try {
+      const response = await prisma.user.create({
+        data: {
+          user
+        }
+      })
+      return _user;
+    } catch (error) {
+      
     }
-    return UserRepository.#instance;
-  }
-
-  static getInstance() {
-    return UserRepository.#instance;
-  }
-
-  /**
-   * @param {UserAddDTO} user
-   */
-  add(user) {
-    const _user = {
-      ...user,
-      id: uuidv4(),
-      tecnologies: [],
-    };
-    this.users.push(_user);
-    return _user;
+    
   }
 
   listTecnologies(userId) {
@@ -105,15 +89,15 @@ export class UserRepository {
     return technologyExist;
   }
 
-  edit(user) {}
-  /**
-   * @param {string} username
-   */
-  list(username) {
+  
+  async list(username?: string) {
     if (username) {
-      return this.users.find((user) => user.username === username);
+      const user = await prisma.user.findFirst({
+        where: { username }
+      })
+      return user
     }
-    return this.users;
+    return await prisma.user.findMany();
   }
 
   /**

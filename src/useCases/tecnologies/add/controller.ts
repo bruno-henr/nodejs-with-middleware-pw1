@@ -1,18 +1,10 @@
+import { Request, Response } from "express";
 import { AddTecnologiesUseCase } from "./useCase.js";
 
 export class AddTecnologiesController {
-  addTecnologiesUseCase;
-  /**
-   * @param {AddTecnologiesUseCase} addTecnologiesUseCase
-   */
-  constructor(addTecnologiesUseCase) {
-    this.addTecnologiesUseCase = addTecnologiesUseCase;
-  }
-  /**
-   * @param {Request} req
-   * @param {Response} res
-   */
-  handle(req, res) {
+  constructor(private readonly addTecnologiesUseCase: AddTecnologiesUseCase) { }
+  
+  handle(req: Request, res: Response) {
     try {
       const user = req.user;
       const { title, deadline } = req.body;
@@ -21,7 +13,7 @@ export class AddTecnologiesController {
         deadline,
       });
       return res.status(201).json(tecnologies);
-    } catch (error) {
+    } catch (error: any) {
       return res.status(400).json({ error: error.message });
     }
   }

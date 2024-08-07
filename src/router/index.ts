@@ -1,6 +1,6 @@
 import { Router } from 'express'
-import { tecnologiesRouter } from './tecnologiesRouter.js'
-import { userRouter } from './userRoutes.js'
+import { tecnologiesRouter } from './tecnologiesRouter'
+import { userRouter } from './userRoutes'
 
 export const router = Router();
 

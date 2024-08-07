@@ -1,17 +1,10 @@
 import { UserRepository } from "../../../implementation/UserRepository.js";
-import "../../../types/UserTypes.js";
 
 export class MarkTecnologyUseCase {
-  /**
-   * @param {UserRepository} userRepository
-   */
-  constructor(userRepository) {
-    this.userRepository = userRepository;
-  }
-  /**
-   * @param {string} tecnologyId
-   */
-  execute(userId, tecnologyId) {
+
+  constructor(private readonly userRepository: UserRepository) { }
+
+  execute(userId: string, tecnologyId: string) {
     if (!userId) {
       throw new Error("User is required");
     }
