@@ -1,29 +1,22 @@
-import { MarkTecnologyUseCase } from "./useCase.js";
+import { Request, Response } from "express";
+import { MarkTecnologyUseCase } from "./useCase";
 
 export class MarkTecnologyController {
-  markTecnologyUseCase;
-  /**
-   * @param {MarkTecnologyUseCase} markTecnologyUseCase
-   */
-  constructor(markTecnologyUseCase) {
-    this.markTecnologyUseCase = markTecnologyUseCase;
+  constructor(private readonly markTecnologyUseCase: MarkTecnologyUseCase) {
   }
-  /**
-   * @param {Request} req
-   * @param {Response} res
-   */
-  handle(req, res) {
+
+  async handle(req: Request, res: Response) {
     try {
       const user = req.user;
-      if(!req.params.id) {
-        return res.status(40).json({
+      if (!req.params.id) {
+        return res.status(400).json({
           error: 'Id not provided'
         })
       }
 
-      const tecnologyUpdated = this.markTecnologyUseCase.execute(user.id, req.params.id);
+      const tecnologyUpdated = await this.markTecnologyUseCase.execute(req.params.id);
       return res.status(200).json(tecnologyUpdated);
-    } catch (error) {
+    } catch (error: any) {
       return res.status(400).json({ error: error.message });
     }
   }

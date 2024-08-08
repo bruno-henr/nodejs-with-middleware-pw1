@@ -1,14 +1,14 @@
 import { Request, Response } from "express";
-import { AddTecnologiesUseCase } from "./useCase.js";
+import { AddTecnologiesUseCase } from "./useCase";
 
 export class AddTecnologiesController {
   constructor(private readonly addTecnologiesUseCase: AddTecnologiesUseCase) { }
   
-  handle(req: Request, res: Response) {
+  async handle(req: Request, res: Response) {
     try {
       const user = req.user;
       const { title, deadline } = req.body;
-      const tecnologies = this.addTecnologiesUseCase.execute(user.id, {
+      const tecnologies = await this.addTecnologiesUseCase.execute(user.id, {
         title,
         deadline,
       });

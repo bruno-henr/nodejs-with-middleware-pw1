@@ -1,23 +1,14 @@
-import { UserRepository } from "../../../implementation/UserRepository.js";
-import "../../../types/UserTypes.js";
+import { UserRepository } from "../../../implementation/UserRepository";
 
 export class ListTecnologiesUseCase {
-  /**
-   * @param {UserRepository} userRepository
-   */
-  constructor(userRepository) {
-    this.userRepository = userRepository;
-  }
-  /**
-   * @param {UserAddDTO} user
-   * @returns {UserAddDTOReturn | Error}
-   */
-  execute(userId) {
-    if(!userId) {
-        throw new Error("User is required")
+  constructor(private readonly userRepository: UserRepository) {}
+
+  async execute(userId: string) {
+    if (!userId) {
+      throw new Error("User is required")
     }
-    
-    const tecnologies = this.userRepository.listTecnologies(userId);
+
+    const tecnologies = await this.userRepository.listTecnologies(userId);
     return tecnologies;
   }
 }

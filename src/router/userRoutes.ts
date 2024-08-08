@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { addUserController } from "../useCases/user/add/index.js";
-import { listUserController } from "../useCases/user/list/index.js";
+import { addUserController } from "../useCases/user/add/index";
+import { listUserController } from "../useCases/user/list/index";
 
 export const userRouter = Router();
 

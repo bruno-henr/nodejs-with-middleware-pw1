@@ -1,27 +1,18 @@
-import { DeleteTecnologyUseCase } from "./useCase.js";
-
+import { Request, Response } from "express";
+import { DeleteTecnologyUseCase } from "./useCase"
 
 export class DeleteTecnologyController {
-    deleteTecnologyUseCase;
-  /**
-   * @param {DeleteTecnologyUseCase} deleteTecnologyUseCase
-   */
-  constructor(deleteTecnologyUseCase) {
-    this.deleteTecnologyUseCase = deleteTecnologyUseCase;
-  }
-  /**
-   * @param {Request} req
-   * @param {Response} res
-   */
-  handle(req, res) {
+  constructor(private readonly deleteTecnologyUseCase: DeleteTecnologyUseCase) { }
+
+  async handle(req: Request, res: Response) {
     try {
       const user = req.user;
-      if(!req.params.id) {
+      if (!req.params.id) {
         return res.status(400).json({ error: 'Id is required' });
       }
-      const tecnologies =  this.deleteTecnologyUseCase.execute(user.id, req.params.id);
+      const tecnologies = await this.deleteTecnologyUseCase.execute(user.id, req.params.id);
       return res.status(200).json(tecnologies);
-    } catch (error) {
+    } catch (error: any) {
       return res.status(400).json({ error: error.message });
     }
   }

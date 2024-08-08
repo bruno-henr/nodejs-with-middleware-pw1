@@ -1,7 +1,7 @@
 import { UserRepository } from "../implementation/UserRepository.js";
 import { ListTecnologiesUseCase } from "../useCases/tecnologies/list/useCase.js";
 import { expect } from "@jest/globals";
-import "../types/UserTypes.js";
+import "../@types/UserTypes.js";
 import { AddUserUseCase } from "../useCases/user/add/useCase.js";
 
 describe("List Tecnologies from an user", () => {

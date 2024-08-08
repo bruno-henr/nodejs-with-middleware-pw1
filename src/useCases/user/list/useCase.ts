@@ -1,10 +1,10 @@
-import { UserRepository } from "../../../implementation/UserRepository.js";
+import { UserRepository } from "../../../implementation/UserRepository";
 
 export class ListUserUseCase {
   constructor(private readonly userRepository: UserRepository) {}
 
-  execute() {
-    const users = this.userRepository.list();
+  async execute() {
+    const users = await this.userRepository.list();
     return users;
   }
 }

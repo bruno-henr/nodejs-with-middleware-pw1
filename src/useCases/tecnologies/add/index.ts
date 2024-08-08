@@ -1,6 +1,6 @@
-import { AddTecnologiesController } from "./controller.js";
-import { AddTecnologiesUseCase } from "./useCase.js";
-import { UserRepository } from "../../../implementation/UserRepository.js";
+import { AddTecnologiesController } from "./controller";
+import { AddTecnologiesUseCase } from "./useCase";
+import { UserRepository } from "../../../implementation/UserRepository";
 
 const userRepository = new UserRepository();
 const addTecnologiesUseCase = new AddTecnologiesUseCase(userRepository);

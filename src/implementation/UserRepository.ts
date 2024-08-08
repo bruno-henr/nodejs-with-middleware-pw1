@@ -1,95 +1,92 @@
-import { prisma } from "../database/prisma.js";
-import "../types/UserTypes.js";
-import { v4 as uuidv4, v4 } from "uuid";
+import { AddTecnologyDTO } from "src/useCases/tecnologies/add/AddTecnologyDTO";
+import { prisma } from "../database/prisma";
+import { UserAddDTO } from "../useCases/user/add/UserAddDTO";
+import { TechnologyEditDTO } from "src/useCases/tecnologies/edit/TechnologyEditDTO";
 
 export class UserRepository {
-  
-  async add(user) {
+
+  async add(user: UserAddDTO) {
     try {
       const response = await prisma.user.create({
         data: {
-          user
+          name: user.name,
+          username: user.username
         }
-      })
-      return _user;
+      });
+
+      return response;
     } catch (error) {
-      
+      return error;
     }
+
+  }
+
+  async listTecnologies(userId: string) {
+    const response = await prisma.user.findUnique({
+      where: {
+        id: userId
+      },
+      include: {
+        tecnologies: true
+      }
+    });
+
+    return response?.tecnologies
+  }
+
+  async addTecnology(userId: string, tecnology: AddTecnologyDTO) {
+    await prisma.tecnology.create({
+      data: {
+        deadline: new Date(tecnology.deadline),
+        title: tecnology.title,
+        userId,
+      }
+    });
+
+    return this.listTecnologies(userId);
+  }
+
+  async deleteTechnologyById(userId: string, tecnologyId: string) {
+    await prisma.tecnology.delete({
+      where: {
+        id: tecnologyId
+      }
+    });
     
+    return this.listTecnologies(userId);
   }
 
-  listTecnologies(userId) {
-    const user = this.users.find((u) => u.id === userId);
-    if (!user) {
-      return null;
-    }
-    return user.tecnologies;
+  async markTecnology(tecnologyId: string) {
+    const response = await prisma.tecnology.update({
+      where: {
+        id: tecnologyId
+      },
+      data: {
+        studied: true
+      }
+    })
+    return response;
   }
 
-  addTecnology(userId, tecnology) {
-    const user = this.users.find((u) => u.id === userId);
-    if (!user) {
-      return null;
+  async editTechnology(technology: TechnologyEditDTO) {
+    const data: { deadline?: Date, title?: string } = {};
+    if(!!technology?.deadline) {
+      data.deadline = new Date(technology.deadline)
     }
-    user.tecnologies.push({
-      ...tecnology,
-      id: v4(),
-      studied: false,
-      deadline: new Date(tecnology.deadline),
-      created_at: new Date(),
-    });
-    return user.tecnologies;
+    if(!!technology?.title) {
+      data.title = technology.title;
+    }
+
+    const response = await prisma.tecnology.update({
+      where: {
+        id: technology.id
+      },
+      data: data
+    })
+    return response;
   }
 
-  deleteTechnologyById(userId, tecnologyId) {
-    const user = this.users.find((u) => u.id === userId);
-    if (!user) {
-      return null;
-    }
-    const technologyExist = user.tecnologies.find((t) => t.id === tecnologyId);
-    if (!technologyExist) {
-      return null;
-    }
-    user.tecnologies = user.tecnologies.filter((t) => t.id !== tecnologyId);
-    return user.tecnologies;
-  }
 
-  markTecnology(userId, tecnologyId) {
-    const user = this.users.find((u) => u.id === userId);
-    if (!user) {
-      return null;
-    }
-    const technologyExist = user.tecnologies.find((t) => t.id === tecnologyId);
-
-    if (!technologyExist) {
-      return null;
-    }
-    Object.assign(technologyExist, {
-      studied: true,
-    });
-    return technologyExist;
-  }
-
-  editTechnology(userId, technology) {
-    const user = this.users.find((u) => u.id === userId);
-    if (!user) {
-      return null;
-    }
-    const technologyExist = user.tecnologies.find(
-      (t) => t.id === technology.id
-    );
-
-    if (!technologyExist) {
-      return null;
-    }
-    Object.assign(technologyExist, {
-      title: technology.title ?? technologyExist.title,
-      deadline: new Date(technology.deadline) ?? technologyExist.deadline,
-    });
-    return technologyExist;
-  }
-
-  
   async list(username?: string) {
     if (username) {
       const user = await prisma.user.findFirst({
@@ -100,8 +97,13 @@ export class UserRepository {
     return await prisma.user.findMany();
   }
 
-  /**
-   * @param {string} userId
-   */
-  delete(userId) {}
+  async delete(userId: string) { 
+    const response = await prisma.user.delete({
+      where: {
+        id: userId
+      }
+    });
+
+    return response;
+  }
 }

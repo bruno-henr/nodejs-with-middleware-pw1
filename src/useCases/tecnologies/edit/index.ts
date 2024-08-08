@@ -1,6 +1,6 @@
-import { EditTecnologiesController } from "./controller.js";
-import { EditTecnologyUseCase } from "./useCase.js";
-import { UserRepository } from "../../../implementation/UserRepository.js";
+import { EditTecnologiesController } from "./controller";
+import { EditTecnologyUseCase } from "./useCase";
+import { UserRepository } from "../../../implementation/UserRepository";
 
 const userRepository = new UserRepository();
 const editTecnologiesUseCase = new EditTecnologyUseCase(userRepository);

@@ -26,7 +26,7 @@ model Tecnology {
   created_at DateTime @default(now()) @db.Timestamptz(6)
   title      String
   deadline   DateTime
-  studied    Boolean
-  userId     String?  @db.Uuid
-  User       User?    @relation(fields: [userId], references: [id])
+  studied    Boolean  @default(false)
+  userId     String   @db.Uuid
+  User       User     @relation(fields: [userId], references: [id])
 }

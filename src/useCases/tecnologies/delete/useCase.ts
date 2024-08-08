@@ -1,18 +1,9 @@
-import { UserRepository } from "../../../implementation/UserRepository.js";
-import "../../../types/UserTypes.js";
+import { UserRepository } from "../../../implementation/UserRepository";
 
 export class DeleteTecnologyUseCase {
-  /**
-   * @param {UserRepository} userRepository
-   */
-  constructor(userRepository) {
-    this.userRepository = userRepository;
-  }
-  /**
-   * @param {string} userId
-   * @param {string} technologyId
-   */
-  execute(userId, technologyId) {
+  constructor(private readonly userRepository: UserRepository) { }
+
+  async execute(userId: string, technologyId: string) {
     if (!userId) {
       throw new Error("User is required");
     }
@@ -20,11 +11,11 @@ export class DeleteTecnologyUseCase {
       throw new Error("TechnologyID is required");
     }
 
-    const tecnology = this.userRepository.deleteTechnologyById(
+    const tecnology = await this.userRepository.deleteTechnologyById(
       userId,
       technologyId
     );
-    
+
     return tecnology;
   }
 }

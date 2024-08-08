@@ -1,24 +1,16 @@
-import { ListTecnologiesUseCase } from "./useCase.js";
+import { Request, Response } from "express";
+import { ListTecnologiesUseCase } from "./useCase";
 
 
 export class ListTecnologiesController {
-    listTecnologiesUseCase;
-  /**
-   * @param {ListTecnologiesUseCase} listTecnologiesUseCase
-   */
-  constructor(listTecnologiesUseCase) {
-    this.listTecnologiesUseCase = listTecnologiesUseCase;
-  }
-  /**
-   * @param {Request} req
-   * @param {Response} res
-   */
-  handle(req, res) {
+  constructor(private readonly listTecnologiesUseCase: ListTecnologiesUseCase) { }
+
+  async handle(req: Request, res: Response) {
     try {
       const user = req.user;
-      const tecnologies =  this.listTecnologiesUseCase.execute(user.id);
+      const tecnologies = await this.listTecnologiesUseCase.execute(user.id);
       return res.status(200).json(tecnologies);
-    } catch (error) {
+    } catch (error: any) {
       return res.status(400).json({ error: error.message });
     }
   }

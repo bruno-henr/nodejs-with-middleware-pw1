@@ -1,7 +1,7 @@
 import { UserRepository } from "../implementation/UserRepository.js";
 import { AddUserUseCase } from "../useCases/user/add/useCase.js";
 import { expect } from "@jest/globals";
-import "../types/UserTypes.js";
+import "../@types/UserTypes.js";
 
 describe("Add User", () => {
   let userRepository;

@@ -1,6 +1,6 @@
-import { MarkTecnologyController } from "./controller.js";
-import { MarkTecnologyUseCase } from "./useCase.js";
-import { UserRepository } from "../../../implementation/UserRepository.js";
+import { MarkTecnologyController } from "./controller";
+import { MarkTecnologyUseCase } from "./useCase";
+import { UserRepository } from "../../../implementation/UserRepository";
 
 const userRepository = new UserRepository();
 const markTecnologyUseCase = new MarkTecnologyUseCase(userRepository);

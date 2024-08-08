@@ -1,6 +1,6 @@
-import { DeleteTecnologyController } from "./controller.js";
-import { DeleteTecnologyUseCase } from "./useCase.js";
-import { UserRepository } from "../../../implementation/UserRepository.js";
+import { DeleteTecnologyController } from "./controller";
+import { DeleteTecnologyUseCase } from "./useCase";
+import { UserRepository } from "../../../implementation/UserRepository";
 
 const userRepository = new UserRepository();
 const deleteTecnologyUseCase = new DeleteTecnologyUseCase(userRepository);

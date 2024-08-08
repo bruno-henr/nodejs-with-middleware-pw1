@@ -1,6 +1,6 @@
-import { ListTecnologiesController } from "./controller.js";
-import { ListTecnologiesUseCase } from "./useCase.js";
-import { UserRepository } from "../../../implementation/UserRepository.js";
+import { ListTecnologiesController } from "./controller";
+import { ListTecnologiesUseCase } from "./useCase";
+import { UserRepository } from "../../../implementation/UserRepository";
 
 const userRepository = new UserRepository();
 const listTecnologiesUseCase = new ListTecnologiesUseCase(userRepository);
